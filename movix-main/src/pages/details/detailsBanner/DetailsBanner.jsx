@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
@@ -40,6 +40,26 @@ const DetailsBanner = ({ video, crew }) => {
     const [added, setAdd]=useState("false")
     const [toggle,setToggle]=useState(false)
     const [load,setLoad] = useState(false);
+
+    useEffect(()=>{
+        const t= async()=>{
+            try {
+                const response = await axios.get('http://localhost:5000/api/users/check', {
+                    params: {
+                        userId: user._id,
+                        data: data
+                    },
+                    body: { data: data.id }
+                });
+                setAdd(response.data);
+            } catch (error) {
+                console.error("There was an error fetching the favorite movies!", error);
+            }
+        }
+        t();
+        
+    })
+
     useEffect(() => {
         const t = async () => {
             try {

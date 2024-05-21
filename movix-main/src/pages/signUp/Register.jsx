@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 import { FaUser } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { userRegThunk } from "../../store/auth/authSlice";
@@ -32,6 +32,9 @@ function Register() {
     // Redirect when logged in
     if (isSuccess || user) {
       navigate("/");
+      if (isSuccess) {
+        toast.success("Registration successful!");
+      }
     }
 
     dispatch(authActions.reset());
@@ -46,8 +49,11 @@ function Register() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    if (password !== password2) {
+    if(password.length < 6)
+      {
+        toast.error("password length should be greater than or equal to six");
+      }
+    else if (password !== password2) {
       toast.error("Passwords do not match");
     } else {
       const userData = {
@@ -57,6 +63,12 @@ function Register() {
       };
 
       dispatch(userRegThunk(userData));
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        password2: "",
+      })
     }
   };
 
@@ -125,6 +137,7 @@ function Register() {
           </div>
           <div className="form-group">
             <button className="btn btn-block">Submit</button>
+            <ToastContainer/>
           </div>
         </form>
       </section>

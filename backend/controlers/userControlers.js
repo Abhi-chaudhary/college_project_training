@@ -96,6 +96,7 @@ const removeFavourites = asyncHandler(async (req, res) => {
  
    const fav = await favourite.remove({
     userId: req.body.params.userId,
+    data:req.body.body.data
    });
    res.status(201).json(fav);
  });

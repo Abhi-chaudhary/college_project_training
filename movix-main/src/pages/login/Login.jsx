@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 import { FaSignInAlt } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { userRegThunk ,userLoginThunk} from "../../store/auth/authSlice";
@@ -30,7 +30,9 @@ function Login() {
     // Redirect when logged in
     if (isSuccess || user) {
       navigate("/");
+      toast.success(message)
     }
+
 
     dispatch(authActions.reset());
   }, [isError, isSuccess, user, message, navigate, dispatch]);
@@ -89,6 +91,7 @@ function Login() {
 
           <div className="form-group">
             <button className="btn btn-block">Login</button>
+            <ToastContainer/>
           </div>
         </form>
       </section>
